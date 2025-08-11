@@ -3,6 +3,7 @@
 
 # Personal Configuration (CRITICAL: Contains personal info)
 CLAUDE.md
+settings.local.json
 
 # Git configuration (may contain personal user info)
 .git/config
