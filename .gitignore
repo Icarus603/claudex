@@ -1,19 +1,89 @@
+# Claudex Multi-Agent Development System
+# =======================================
+
+# Personal Configuration (CRITICAL: Contains personal info)
+CLAUDE.md
+
+# Git configuration (may contain personal user info)
+.git/config
+
+# Claudex data directories (may contain personal project data)
+.claude/
+claudex-data/
+.claudex-checkpoint
+shell-snapshots/
+statsig/
+ide/
+projects/
+todos/
+
+# Agent performance tracking (may contain personal project patterns)
+agents/analytics.json
+agents/*-performance.json
+agents/*-start-time.tmp
+agents/calls.log
+agents/interactions.json
+
+# Intelligence system data (may contain personal development patterns)
+intelligence/
+state/
+context/
+learning/
+metrics/
+
+# Development artifacts and dependencies
+# =====================================
+
+# Node.js
 node_modules/
+package-lock.json
+yarn.lock
+.npm/
+.yarn/
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
 .env
 .env.local
 .env.*.local
+*.egg-info/
+
+# Environment and configuration
+.env*
 .DS_Store
 logs/
-.claude/
 *.log
+
+# Build outputs
 dist/
 build/
 coverage/
+
+# IDE and editor files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+
+# Cache and temporary
 .cache/
 tmp/
 temp/
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project-specific Claudex files to keep:
+# PRD.md - Requirements documentation
+# SPECS.md - Technical specifications  
+# DEPLOYMENT.md - Deployment configuration
+# MAINTENANCE_LOG.md - Maintenance history
+# WORKFLOW_STATE.md - Current workflow state
+
+# Add project-specific patterns below
