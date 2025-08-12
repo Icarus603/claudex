@@ -6,8 +6,6 @@ description: Intelligent implementation with Claude as primary engineer and spec
 
 $THINKING_LEVEL about implementation approach.
 
-Enter plan mode and present your implementation strategy before proceeding.
-
 ## Intelligent Implementation Workflow
 
 Target: $ARGUMENTS (or next logical component if not specified)
@@ -30,9 +28,8 @@ Target: $ARGUMENTS (or next logical component if not specified)
 2. **Capability Assessment**
    - Analyze what the component requires
    - Determine what Claude can build directly vs. what needs specialists
-   - Create implementation strategy
 
-3. **Smart Implementation Strategy**
+3. **Agent Selection Strategy**
 
    **Claude Handles Directly (90% of cases):**
    ```
@@ -89,7 +86,15 @@ Target: $ARGUMENTS (or next logical component if not specified)
    • Advanced analytics and reporting
    ```
 
-4. **Implementation Execution with Coordination Patterns**
+4. **Implementation Planning**
+   - Enter plan mode and present your technical implementation strategy based on the above analysis:
+     - Specific components to build and their implementation order
+     - Technical approach and patterns to use
+     - Dependencies and integration points
+     - Testing strategy and validation approach
+     - Potential challenges and mitigation strategies
+
+5. **Implementation Execution with Coordination Patterns**
 
    **Pattern A: Claude Direct (90% of cases)**
    - Claude builds complete component
@@ -126,7 +131,7 @@ Target: $ARGUMENTS (or next logical component if not specified)
      6. **qa-engineer validates** ML model integration and performance
      7. Claude integrates layers sequentially with validated foundations
 
-5. **Feedback Loop Detection During Implementation**
+6. **Feedback Loop Detection During Implementation**
 
    **Architecture Insufficiency Detection:**
    - **Component complexity exceeds specifications:**
@@ -153,7 +158,7 @@ Target: $ARGUMENTS (or next logical component if not specified)
    - Test failures revealing fundamental design issues
    - Integration problems between components
 
-6. **Error Recovery & Fallback Strategies**
+7. **Error Recovery & Fallback Strategies**
    
    **Specialist Agent Failures:**
    - **Single specialist fails**: Claude implements with basic patterns + documents limitations

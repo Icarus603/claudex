@@ -6,8 +6,6 @@ description: Intelligent workflow orchestration managing interdependencies and i
 
 Think harder about the complete development workflow state and optimal next actions.
 
-Enter plan mode and present your workflow orchestration strategy before proceeding.
-
 ## Workflow Orchestration
 
 Action: $ARGUMENTS (default: auto)

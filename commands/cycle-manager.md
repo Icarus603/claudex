@@ -6,8 +6,6 @@ description: Intelligent iterative development cycle management and optimization
 
 Think harder about development cycle patterns and optimization strategies.
 
-Enter plan mode and present your cycle management approach before proceeding.
-
 ## Iterative Development Cycle Management
 
 Action: $ARGUMENTS (default: analyze)

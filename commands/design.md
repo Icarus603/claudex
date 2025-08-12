@@ -6,8 +6,6 @@ description: Create comprehensive technical specifications through architectural
 
 Think harder about system design and architecture.
 
-Enter plan mode and present your plan for technical design before proceeding.
-
 ## System Design Workflow
 
 Analyze any specific focus: $ARGUMENTS

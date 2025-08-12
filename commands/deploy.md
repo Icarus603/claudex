@@ -6,8 +6,6 @@ description: Deploy application to target environment with comprehensive infrast
 
 Think about deployment strategy and infrastructure requirements.
 
-Enter plan mode and present your deployment approach before proceeding.
-
 ## Deployment Workflow
 
 Target environment: $ARGUMENTS (default: production)

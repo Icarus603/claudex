@@ -6,8 +6,6 @@ description: Maintain and optimize applications with dynamic specialist routing
 
 $THINKING_LEVEL about maintenance requirements and approach.
 
-Enter plan mode and present your maintenance strategy before proceeding.
-
 ## Maintenance Workflow
 
 Maintenance request: $ARGUMENTS

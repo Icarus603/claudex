@@ -6,8 +6,6 @@ description: Cross-command context persistence and intelligent context managemen
 
 Think harder about context preservation and knowledge transfer across development phases.
 
-Enter plan mode and present your context management strategy before proceeding.
-
 ## Cross-Command Context Persistence
 
 Action: $ARGUMENTS (default: save)

@@ -6,8 +6,6 @@ description: Discover and document product requirements through PM analysis and 
 
 Think hard about discovering product requirements.
 
-Enter plan mode and present your plan for requirements discovery before proceeding.
-
 ## Requirements Discovery Workflow
 
 Analyze the request: $ARGUMENTS

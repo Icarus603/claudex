@@ -6,8 +6,6 @@ description: Comprehensive workflow state tracking and intelligent resumption ma
 
 Think harder about workflow state management and seamless resumption capabilities.
 
-Enter plan mode and present your workflow state management strategy before proceeding.
-
 ## Workflow State Tracking and Resumption
 
 Action: $ARGUMENTS (default: save)
