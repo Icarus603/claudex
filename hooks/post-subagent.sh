@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 # Claudex PostToolUse Hook for Task - Agent Learning
 
-# Read JSON input
+# Source secure functions
+source "$HOME/.claude/hooks/file-locking.sh"
+
+# Read JSON input with validation
 INPUT=$(cat)
+if ! echo "$INPUT" | jq empty 2>/dev/null; then
+  exit 1  # Invalid JSON input
+fi
+
 SUBAGENT=$(echo "$INPUT" | jq -r '.inputs.subagent_type // ""')
 RESPONSE=$(echo "$INPUT" | jq -r '.response // ""')
 
@@ -43,41 +50,35 @@ LOG_ENTRY="{
   \"response_length\": ${#RESPONSE}
 }"
 
-# Update performance history
-if [ -f "$PERF_FILE" ]; then
-  # Load existing data and update
-  TOTAL_CALLS=$(jq -r '.total_calls + 1' "$PERF_FILE")
-  SUCCESSFUL_CALLS=$(jq -r ".successful_calls + $SUCCESS" "$PERF_FILE")
-  SUCCESS_RATE=$(( SUCCESSFUL_CALLS * 100 / TOTAL_CALLS ))
-  AVG_TIME=$(jq -r "(.avg_execution_time * (.total_calls - 1) + $EXECUTION_TIME) / $TOTAL_CALLS" "$PERF_FILE")
-  
-  jq --argjson new_entry "$LOG_ENTRY" \
-     --argjson total "$TOTAL_CALLS" \
-     --argjson successful "$SUCCESSFUL_CALLS" \
-     --argjson success_rate "$SUCCESS_RATE" \
-     --argjson avg_time "$AVG_TIME" \
-     '.total_calls = $total |
-      .successful_calls = $successful |
-      .success_rate = $success_rate |
-      .avg_execution_time = $avg_time |
+# Update performance history with atomic file operations
+update_performance_file() {
+  if [ -f "$PERF_FILE" ]; then
+    # Load existing data and update
+    jq --argjson new_entry "$LOG_ENTRY" '
+      .total_calls += 1 |
+      .successful_calls += ($new_entry.success) |
+      .success_rate = (.successful_calls * 100 / .total_calls | floor) |
+      .avg_execution_time = ((.avg_execution_time * (.total_calls - 1)) + $new_entry.execution_time) / .total_calls |
       .recent_calls = ([$new_entry] + .recent_calls)[:10] |
-      (.last_failure_reason = if $new_entry.success == 0 then "Response quality issues detected" else .last_failure_reason end)' \
-     "$PERF_FILE" > "${PERF_FILE}.tmp" && mv "${PERF_FILE}.tmp" "$PERF_FILE"
-else
-  # Create new performance file
-  cat > "$PERF_FILE" << EOF
-{
-  "agent": "$SUBAGENT",
-  "total_calls": 1,
-  "successful_calls": $SUCCESS,
-  "success_rate": $(( SUCCESS * 100 )),
-  "avg_execution_time": $EXECUTION_TIME,
-  "recent_calls": [$LOG_ENTRY],
-  "last_failure_reason": $([ "$SUCCESS" = "0" ] && echo '"Response quality issues detected"' || echo 'null'),
-  "context_requirements": ""
+      .last_failure_reason = (if $new_entry.success == 0 then "Response quality issues detected" else .last_failure_reason end)
+    ' "$PERF_FILE"
+  else
+    # Create new performance file structure
+    jq -n --argjson new_entry "$LOG_ENTRY" --arg agent "$SUBAGENT" '{
+      "agent": $agent,
+      "total_calls": 1,
+      "successful_calls": $new_entry.success,
+      "success_rate": ($new_entry.success * 100),
+      "avg_execution_time": $new_entry.execution_time,
+      "recent_calls": [$new_entry],
+      "last_failure_reason": (if $new_entry.success == 0 then "Response quality issues detected" else null end),
+      "created": (now | strftime("%Y-%m-%dT%H:%M:%SZ"))
+    }'
+  fi
 }
-EOF
-fi
+
+# Use atomic update with file locking
+atomic_json_update "$PERF_FILE" "update_performance_file"
 
 # Update global agent analytics
 GLOBAL_ANALYTICS="$CLAUDEX_DATA/agents/analytics.json"

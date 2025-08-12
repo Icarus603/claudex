@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 # Claudex UserPromptSubmit Hook - Intent Intelligence
 
-# Read JSON input from stdin
+# Source secure JSON functions
+source "$HOME/.claude/hooks/secure-json.sh"
+
+# Read JSON input from stdin with validation
 INPUT=$(cat)
+if ! echo "$INPUT" | jq empty 2>/dev/null; then
+  exit 1  # Invalid JSON input
+fi
+
 PROMPT=$(echo "$INPUT" | jq -r '.prompt // ""')
 
 CLAUDEX_DATA="$HOME/.claude/claudex-data"
@@ -54,9 +61,12 @@ if echo "$PROMPT" | grep -qi "\(context\|remember\|previous\)"; then
   CONTEXT+="💭 Consider: /context-manager load\\n"
 fi
 
-# Output context enhancement
+# Output context enhancement with secure JSON encoding
 if [ -n "$CONTEXT" ]; then
-  printf '{"hookSpecificOutput": {"hookEventName": "UserPromptSubmit", "additionalContext": "🧠 Prompt Intelligence\n\n%s"}}\n' "$CONTEXT"
+  ADDITIONAL_CONTEXT="🧠 Prompt Intelligence
+
+$CONTEXT"
+  create_hook_output_json "UserPromptSubmit" "$ADDITIONAL_CONTEXT"
 fi
 
 # Normal processing (exit 0)

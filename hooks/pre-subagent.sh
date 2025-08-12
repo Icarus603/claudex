@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 # Claudex PreToolUse Hook for Task - Subagent Intelligence
 
-# Read JSON input
+# Source secure JSON functions
+source "$HOME/.claude/hooks/secure-json.sh"
+
+# Read JSON input with validation
 INPUT=$(cat)
+if ! echo "$INPUT" | jq empty 2>/dev/null; then
+  exit 1  # Invalid JSON input
+fi
+
 SUBAGENT=$(echo "$INPUT" | jq -r '.subagent_type // ""')
 
 CLAUDEX_DATA="$HOME/.claude/claudex-data"
@@ -64,12 +71,21 @@ case "$SUBAGENT" in
     ;;
 esac
 
-# Store pre-call timestamp for performance tracking
-echo "$(date +%s)" > "$CLAUDEX_DATA/agents/${SUBAGENT}-start-time.tmp"
+# Store pre-call timestamp for performance tracking with secure temporary file
+START_TIME_FILE=$(mktemp "$CLAUDEX_DATA/agents/${SUBAGENT}-start-time.XXXXXX.tmp")
+if [ $? -eq 0 ]; then
+  echo "$(date +%s)" > "$START_TIME_FILE"
+  chmod 600 "$START_TIME_FILE"  # Restrict permissions
+  # Create a symbolic link with predictable name for cleanup
+  ln -sf "$START_TIME_FILE" "$CLAUDEX_DATA/agents/${SUBAGENT}-start-time.tmp"
+fi
 
-# Output context enhancement
+# Output context enhancement with secure JSON encoding
 if [ -n "$CONTEXT" ]; then
-  echo "{\"hookSpecificOutput\": {\"additionalContext\": \"🤖 Agent Intelligence ($SUBAGENT)\\n\\n$CONTEXT\"}}" >&2
+  ADDITIONAL_CONTEXT="🤖 Agent Intelligence ($SUBAGENT)
+
+$CONTEXT"
+  create_hook_output_json "" "$ADDITIONAL_CONTEXT" >&2
 fi
 
 # Continue with tool execution (exit 0)

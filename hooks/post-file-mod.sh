@@ -1,13 +1,41 @@
 #!/usr/bin/env bash
 # Claudex PostToolUse Hook for File Modifications - Workflow State Updates
 
-# Read JSON input
+# Read JSON input with validation
 INPUT=$(cat)
-FILE_PATH=$(echo "$INPUT" | jq -r '.inputs.file_path // ""')
+if ! echo "$INPUT" | jq empty 2>/dev/null; then
+  exit 1  # Invalid JSON input
+fi
+
+FILE_PATH_RAW=$(echo "$INPUT" | jq -r '.inputs.file_path // ""')
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // ""')
 
 CLAUDEX_DATA="$HOME/.claude/claudex-data"
 SESSION_DIR="$CLAUDE_PROJECT_DIR"
+
+# Sanitize and validate file path
+sanitize_file_path() {
+  local path="$1"
+  # Remove null bytes and control characters
+  path=$(echo "$path" | tr -d '\000-\037\177')
+  # Resolve path and check it's within allowed directories
+  if [[ "$path" = /* ]]; then
+    # Absolute path - ensure it's within home or project dir
+    case "$path" in
+      "$HOME"/*|"$SESSION_DIR"/*|"$CLAUDEX_DATA"/*) 
+        echo "$path" ;;
+      *) 
+        return 1 ;;  # Path not allowed
+    esac
+  else
+    # Relative path - make it relative to SESSION_DIR
+    echo "$SESSION_DIR/$path"
+  fi
+}
+
+if ! FILE_PATH=$(sanitize_file_path "$FILE_PATH_RAW"); then
+  exit 1  # Invalid or dangerous file path
+fi
 mkdir -p "$CLAUDEX_DATA/intelligence"
 
 # Log successful file modification
