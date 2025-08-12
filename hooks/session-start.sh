@@ -72,7 +72,8 @@ case "$MODE" in
     fi
     
     CONTEXT+="⚡ Claudex commands: /discover /design /build /deploy /maintain\\n"
-    CONTEXT+="🔄 Orchestration: /workflow /cycle-manager /context-manager /workflow-state\\n"
+    CONTEXT+="🔄 Orchestration: /workflow /cycle-manager /context-manager\\n"
+    CONTEXT+="  /workflow-state\\n"
     
     if [ -n "$CONTEXT" ]; then
       # Use secure JSON encoding instead of string concatenation
@@ -115,3 +116,6 @@ ${CONTEXT}Use /workflow-state resume for full restoration."
     fi
     ;;
 esac
+
+# Normal completion
+exit 0

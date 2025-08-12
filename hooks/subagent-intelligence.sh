@@ -111,13 +111,13 @@ if [ -n "$ANALYSIS" ]; then
   if [ "$SHOULD_CONTINUE" -eq 1 ]; then
     # Continue with subagent for clarification or improvement
     echo "🤖 Agent Intelligence ($SUBAGENT):" >&2
-    echo "$ANALYSIS" >&2
+    printf '%b\n' "$ANALYSIS" >&2
     echo "Continue with this subagent for optimization or clarification." >&2
     exit 2  # Continue conversation with subagent
   else
     # Just provide intelligence without continuing
     echo "🤖 Agent Intelligence ($SUBAGENT):" >&2  
-    echo "$ANALYSIS" >&2
+    printf '%b\n' "$ANALYSIS" >&2
   fi
 fi
 

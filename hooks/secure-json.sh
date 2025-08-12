@@ -18,16 +18,20 @@ create_json_object() {
 # Create system message JSON with proper escaping
 create_system_message_json() {
   local message="$1"
-  jq -n --arg msg "$message" '{"systemMessage": $msg}'
+  # Interpret escape sequences before passing to jq
+  local processed_message=$(printf '%b' "$message")
+  jq -n --arg msg "$processed_message" '{"systemMessage": $msg}'
 }
 
 # Create hook output JSON with proper escaping
 create_hook_output_json() {
   local hook_event="$1"
   local additional_context="$2"
+  # Interpret escape sequences before passing to jq
+  local processed_context=$(printf '%b' "$additional_context")
   jq -n \
     --arg event "$hook_event" \
-    --arg context "$additional_context" \
+    --arg context "$processed_context" \
     '{
       "hookSpecificOutput": {
         "hookEventName": $event,

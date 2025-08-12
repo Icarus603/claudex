@@ -153,7 +153,8 @@ fi
 
 # Output workflow intelligence
 if [ -n "$WORKFLOW_UPDATE" ]; then
-  echo "{\"hookSpecificOutput\": {\"additionalContext\": \"🔄 Workflow State Update\\n\\n$WORKFLOW_UPDATE\"}}" >&2
+  source "$HOME/.claude/hooks/secure-json.sh"
+  create_hook_output_json "" "🔄 Workflow State Update\\n\\n$WORKFLOW_UPDATE" >&2
 fi
 
 # Create workflow checkpoint if significant changes

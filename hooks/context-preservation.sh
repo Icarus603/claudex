@@ -58,13 +58,14 @@ Generated: $(date)
 Reason: $COMPACTION_REASON
 
 ## Preserved Context
-$CRITICAL_CONTEXT
+$(printf '%b' "$CRITICAL_CONTEXT")
 
 ## Restoration Instructions
 This context should be restored after compaction to maintain Claudex intelligence continuity.
 EOF
       
-      echo "{\"hookSpecificOutput\": {\"additionalContext\": \"🧠 Critical Context Preserved\\n\\n$CRITICAL_CONTEXT\\nContext backup: $CONTEXT_BACKUP\"}}" >&2
+      source "$HOME/.claude/hooks/secure-json.sh"
+      create_hook_output_json "" "🧠 Critical Context Preserved\\n\\n$CRITICAL_CONTEXT\\nContext backup: $CONTEXT_BACKUP" >&2
     fi
     ;;
     
@@ -88,7 +89,8 @@ EOF
     GUIDANCE+="  - Ensure important decisions are documented in project files\\n"
     
     if [ -n "$GUIDANCE" ]; then
-      echo "{\"hookSpecificOutput\": {\"additionalContext\": \"🗜️ Manual Compaction Guidance\\n\\n$GUIDANCE\"}}" >&2
+      source "$HOME/.claude/hooks/secure-json.sh"
+      create_hook_output_json "" "🗜️ Manual Compaction Guidance\\n\\n$GUIDANCE" >&2
     fi
     ;;
 esac

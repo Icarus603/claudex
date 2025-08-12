@@ -109,7 +109,7 @@ EOF
 
   if [ "$SHOULD_CONTINUE" -eq 1 ]; then
     # Continue conversation with intelligence
-    echo "$WORKFLOW_ANALYSIS" >&2
+    printf '%b' "$WORKFLOW_ANALYSIS" >&2
     echo "🧠 Workflow Intelligence Analysis complete. Check next steps above." >&2
     exit 2  # Continue conversation
   fi

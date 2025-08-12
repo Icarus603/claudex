@@ -62,7 +62,8 @@ fi
 
 # Output intelligence if any found
 if [ -n "$INTELLIGENCE" ]; then
-  echo "{\"hookSpecificOutput\": {\"additionalContext\": \"🔔 Notification Intelligence\\n\\n$INTELLIGENCE\"}}" >&2
+  source "$HOME/.claude/hooks/secure-json.sh"
+  create_hook_output_json "" "🔔 Notification Intelligence\\n\\n$INTELLIGENCE" >&2
 fi
 
 # Continue processing (exit 0)

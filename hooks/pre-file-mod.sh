@@ -93,7 +93,8 @@ jq --arg file "$BASENAME" \
 
 # Output analysis
 if [ -n "$ANALYSIS" ]; then
-  echo "{\"hookSpecificOutput\": {\"additionalContext\": \"📝 File Modification Analysis\\n\\n$ANALYSIS\"}}" >&2
+  source "$HOME/.claude/hooks/secure-json.sh"
+  create_hook_output_json "" "📝 File Modification Analysis\\n\\n$ANALYSIS" >&2
 fi
 
 # Continue with file modification (exit 0)
