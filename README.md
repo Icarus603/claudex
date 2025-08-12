@@ -336,21 +336,21 @@ git commit -m "Remove personal data from tracking"
 
 ## 🔄 Workflow Orchestration Commands
 
-### `/workflow` - Master Orchestrator
-**Purpose:** Manage command interdependencies and feedback loops intelligently
+### `/workflow` - Intelligent Analysis & Guidance
+**Purpose:** Analyze workflow state and provide intelligent recommendations
 
 **Execution:**
 ```bash
-/workflow auto              # Analyze and execute optimal next action
-/workflow status           # Check current workflow state
-/workflow back design      # Manually trigger regression to design phase
+/workflow auto              # Analyze current state and recommend next steps
+/workflow status           # Check current workflow state and suggestions
+/workflow next design      # Get guidance for specific phase transition
 ```
 
 **Features:**
-- Automatic feedback loop detection and resolution
-- Smart phase progression and regression
-- Context preservation across phase transitions
-- Error recovery with graceful degradation
+- Intelligent next-step analysis and recommendations
+- Feedback loop detection with suggested resolutions
+- Context-aware guidance based on project state
+- Quality-driven recommendations with risk assessment
 
 ---
 
@@ -414,15 +414,16 @@ git commit -m "Remove personal data from tracking"
 # → Creates PRD.md with user stories, technical requirements, and success metrics
 
 /workflow auto
-# → Automatically progresses to /design
+# → Analyzes completion and recommends: "Ready for design phase - /design"
 
+/design
 # → ai-ml-engineer suggests recommendation engine for project insights
 # → software-architect creates microservices architecture 
 # → qa-engineer defines testing strategies
 # → Creates SPECS.md with implementation phases
 
-/workflow auto
-# → Automatically progresses to /build
+/workflow auto  
+# → Analyzes design completion and recommends: "Ready for build phase - /build"
 
 # Day 2-10: Implementation
 /build "user authentication service"
@@ -578,8 +579,11 @@ Design → Build → Design → Build → Design → Build (4th iteration)
 # Start with discovery
 /discover "your project idea"
 
-# Then let workflow orchestrate
+# Get intelligent recommendations for next steps
 /workflow auto
+
+# Then execute recommended commands manually
+/design  # When recommended
 ```
 
 ### 2. Trust the Specialists
@@ -629,17 +633,17 @@ All commands include comprehensive error recovery:
 - Pre/post-deployment validation
 - Proactive monitoring in maintenance
 
-### Learning and Adaptation
-- Agents learn from performance patterns
-- Workflow optimizes based on project history
-- Context accumulates across project lifecycle
-- Cross-project patterns improve future projects
+### Intelligent Analysis and Recommendations
+- Agents learn from performance patterns to improve suggestions
+- Workflow analyzes project state and recommends optimal next steps
+- Context accumulates across project lifecycle for better guidance
+- Cross-project patterns improve future recommendations
 
-### Predictive Capabilities
-- Cycle pattern prediction and prevention
-- Resource optimization recommendations
-- Risk identification and mitigation
-- Success probability modeling
+### Advisory Intelligence Capabilities
+- Cycle pattern detection with intervention recommendations
+- Resource optimization analysis and suggestions
+- Risk identification with mitigation strategies
+- Quality-driven guidance based on project state
 
 ## 🚦 Getting Started
 
@@ -648,10 +652,13 @@ All commands include comprehensive error recovery:
 # Start any project with intelligent discovery
 /discover "your project idea here"
 
-# Let workflow orchestration guide you
+# Get intelligent recommendations
 /workflow auto
 
-# That's it! Claudex handles the complexity
+# Follow the recommendations manually
+/design  # When recommended by workflow analysis
+
+# That's it! Claudex provides the intelligence, you maintain control
 ```
 
 ### Practical Examples
@@ -661,8 +668,12 @@ All commands include comprehensive error recovery:
 # 1. Discover requirements
 /discover "E-commerce platform with user authentication, product catalog, shopping cart, and payment processing"
 
-# 2. Let workflow guide implementation
-/workflow auto
+# 2. Follow intelligent workflow guidance
+/workflow auto    # Get next step recommendations
+/design          # Execute recommended design phase
+/workflow auto    # Check what's next
+/build           # Execute recommended build phase
+/deploy          # Execute deployment when ready
 
 # Result: Complete web app with database, APIs, frontend, and deployment
 ```

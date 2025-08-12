@@ -108,17 +108,12 @@ jq --arg agent "$SUBAGENT" \
 if [ -n "$ANALYSIS" ]; then
   echo "$(date): SubagentStop analysis for $SUBAGENT: $ANALYSIS" >> "$CLAUDEX_DATA/intelligence/subagent-analysis.log"
   
-  if [ "$SHOULD_CONTINUE" -eq 1 ]; then
-    # Continue with subagent for clarification or improvement
-    echo "🤖 Agent Intelligence ($SUBAGENT):" >&2
-    printf '%b\n' "$ANALYSIS" >&2
-    echo "Continue with this subagent for optimization or clarification." >&2
-    exit 2  # Continue conversation with subagent
-  else
-    # Just provide intelligence without continuing
-    echo "🤖 Agent Intelligence ($SUBAGENT):" >&2  
-    printf '%b\n' "$ANALYSIS" >&2
-  fi
+  # Always provide intelligence but let command complete normally
+  echo "🤖 Agent Intelligence ($SUBAGENT):" >&2  
+  printf '%b\n' "$ANALYSIS" >&2
+  
+  # Don't use exit 2 - let the command complete normally
+  # The agent suggestion is informational only
 fi
 
 # Normal completion
