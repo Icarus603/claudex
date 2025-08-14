@@ -5,10 +5,6 @@
     "HTTPS_PROXY": "http://127.0.0.1:7890",
     "ALL_PROXY": "socks5://127.0.0.1:7891"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "bash ~/.claude/statusline-script.sh"
-  },
   "hooks": {
     "SessionStart": [
       {
@@ -21,7 +17,7 @@
         ]
       },
       {
-        "matcher": "resume", 
+        "matcher": "resume",
         "hooks": [
           {
             "type": "command",
@@ -134,5 +130,10 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-script.sh"
+  },
+  "model": "opusplan"
 }
